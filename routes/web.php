@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Paparee\BaleEmperan\Controllers\MediaController;
+use Bale\Emperan\Controllers\MediaController;
 
 Route::get('/media/{path}', [MediaController::class, 'show'])
     ->where('path', '.*')

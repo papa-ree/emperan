@@ -1,13 +1,12 @@
 <?php
 
-namespace Paparee\BaleEmperan;
+namespace Bale\Emperan;
 
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
-use Paparee\BaleEmperan\Commands\BaleEmperanCommand;
-use Paparee\BaleEmperan\Commands\InstallBaleEmperanCommand;
+use Bale\Emperan\Commands\InstallEmperanCommand;
 
-class BaleEmperanServiceProvider extends ServiceProvider
+class EmperanServiceProvider extends ServiceProvider
 {
     /**
      * Method register()
@@ -23,7 +22,7 @@ class BaleEmperanServiceProvider extends ServiceProvider
     protected function registerCommands(): void
     {
         $commands = [
-            'command.emperan:install' => InstallBaleEmperanCommand::class,
+            'command.emperan:install' => InstallEmperanCommand::class,
         ];
 
         foreach ($commands as $key => $class) {
@@ -65,10 +64,10 @@ class BaleEmperanServiceProvider extends ServiceProvider
 
         // Publish config
         $this->publishes([
-            __DIR__ . '/../config/bale-emperan.php' => config_path('bale-emperan.php'),
-        ], 'bale-emperan:config');
+            __DIR__ . '/../config/emperan.php' => config_path('emperan.php'),
+        ], 'emperan:config');
 
-        $this->publishes($this->getMigrations(), 'bale-emperan:migrations');
+        $this->publishes($this->getMigrations(), 'emperan:migrations');
     }
 
     /**

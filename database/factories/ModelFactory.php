@@ -1,6 +1,6 @@
 <?php
 
-namespace Paparee\BaleEmperan\Database\Factories;
+namespace Bale\Emperan\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

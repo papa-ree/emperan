@@ -1,11 +1,11 @@
 <?php
 
-namespace Paparee\BaleEmperan\Commands;
+namespace Bale\Emperan\Commands;
 
 use Illuminate\Console\Command;
-use Paparee\BaleEmperan\Models\Section;
+use Bale\Emperan\Models\Section;
 
-class InstallBaleEmperanCommand extends Command
+class InstallEmperanCommand extends Command
 {
     protected $signature = 'emperan:install';
     protected $description = 'Install Bale Emperan package (publish config, migrate, seed, etc)';
@@ -16,8 +16,8 @@ class InstallBaleEmperanCommand extends Command
 
         // 1. Publish config
         $this->callSilent('vendor:publish', [
-            '--provider' => "Paparee\\BaleEmperan\\BaleEmperanServiceProvider",
-            '--tag' => "bale-emperan:config",
+            '--provider' => "\\Bale\\Emperan\\EmperanServiceProvider",
+            '--tag' => "emperan:config",
             '--force' => true,
         ]);
         $this->info('📦 Config published');
@@ -33,7 +33,6 @@ class InstallBaleEmperanCommand extends Command
     {
         $this->heroSection();
         $this->postSection();
-        $this->footerSection();
     }
 
     public function heroSection()
@@ -133,47 +132,6 @@ class InstallBaleEmperanCommand extends Command
                     'is_active' => true,
                 ],
             ],
-        );
-    }
-
-    public function footerSection()
-    {
-        Section::updateOrCreate(
-            [
-                'slug' => 'footer-section',
-            ],
-            [
-                'name' => 'Footer Section',
-                'slug' => 'footer-section',
-                'content' => [
-                    [
-                        "title" => "Quick Links",
-                        "type" => "link",
-                        "items" => [
-                            ["label" => "Home", "url" => "/"],
-                            ["label" => "News", "url" => "#news"]
-                        ]
-                    ],
-                    [
-                        "title" => "Contact",
-                        "type" => "list",
-                        "items" => [
-                            ["label" => "Jl. Soekarno Hatta 123"],
-                            ["label" => "+62 352 481234"],
-                            ["label" => "cms@bale.id"]
-                        ]
-                    ],
-                    [
-                        "title" => "Social",
-                        "type" => "social",
-                        "items" => [
-                            ["label" => "Facebook", "url" => "https://fb.com"],
-                            ["label" => "Instagram", "url" => "https://ig.com"]
-                        ]
-                    ]
-                ],
-                'is_active' => true
-            ]
         );
     }
 }

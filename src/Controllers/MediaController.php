@@ -1,9 +1,8 @@
 <?php
 
-namespace Paparee\BaleEmperan\Controllers;
+namespace Bale\Emperan\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaController
 {

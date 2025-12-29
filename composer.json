@@ -1,12 +1,12 @@
 {
-    "name": "paparee/bale-emperan",
+    "name": "bale/emperan",
     "description": "Bale Landing Page Backend",
     "keywords": [
         "Paparee",
         "laravel",
         "bale-emperan"
     ],
-    "homepage": "https://github.com/paparee/bale-emperan",
+    "homepage": "https://github.com/bale/emperan",
     "license": "MIT",
     "authors": [
         {
@@ -33,13 +33,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Paparee\\BaleEmperan\\": "src/",
-            "Paparee\\BaleEmperan\\Database\\Factories\\": "database/factories/"
+            "Bale\\Emperan\\": "src/",
+            "Bale\\Emperan\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Paparee\\BaleEmperan\\Tests\\": "tests/",
+            "Bale\\Emperan\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Paparee\\BaleEmperan\\BaleEmperanServiceProvider"
+                "Bale\\Emperan\\EmperanServiceProvider"
             ],
             "aliases": {
-                "BaleEmperan": "Paparee\\BaleEmperan\\Facades\\BaleEmperan"
+                "Emperan": "Bale\\Emperan\\Facades\\Emperan"
             }
         }
     },

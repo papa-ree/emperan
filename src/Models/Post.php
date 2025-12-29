@@ -1,6 +1,6 @@
 <?php
 
-namespace Paparee\BaleEmperan\Models;
+namespace Bale\Emperan\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;

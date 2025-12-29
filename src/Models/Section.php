@@ -1,6 +1,6 @@
 <?php
 
-namespace Paparee\BaleEmperan\Models;
+namespace Bale\Emperan\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
