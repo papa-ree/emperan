@@ -3,12 +3,13 @@
 namespace Bale\Emperan\Models;
 
 use Carbon\Carbon;
+use Coderflex\Laravisit\Concerns\CanVisit;
 use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Page extends Model implements CanVisit
 {
     use HasUuids;
     use HasVisits;
