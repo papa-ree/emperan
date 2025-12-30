@@ -10,7 +10,7 @@ class MediaController
     {
         $path = urldecode($path);
 
-        $disk = Storage::disk('minio');
+        $disk = Storage::disk('s3');
 
         if (!$disk->exists($path)) {
             abort(404);
