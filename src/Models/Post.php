@@ -3,6 +3,7 @@
 namespace Bale\Emperan\Models;
 
 use Carbon\Carbon;
+use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     use HasUuids;
+    use HasVisits;
 
     /**
      * Kolom yang boleh diisi (mass assignment)
@@ -60,11 +62,6 @@ class Post extends Model
 
         // Hapus tag HTML, batasi panjang
         return Str::limit(strip_tags($text), $limit);
-    }
-
-    public function visit()
-    {
-        return visits($this);
     }
 
 }

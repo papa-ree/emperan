@@ -3,6 +3,7 @@
 namespace Bale\Emperan\Models;
 
 use Carbon\Carbon;
+use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Page extends Model
 {
     use HasUuids;
+    use HasVisits;
 
     /**
      * Kolom yang boleh diisi (mass assignment)
@@ -25,10 +27,5 @@ class Page extends Model
         return Attribute::make(
             get: fn(string $value) => Carbon::parse($value)->diffForHumans(),
         );
-    }
-
-    public function visit()
-    {
-        return visits($this);
     }
 }
