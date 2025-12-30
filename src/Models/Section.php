@@ -2,16 +2,13 @@
 
 namespace Bale\Emperan\Models;
 
-use Coderflex\Laravisit\Concerns\CanVisit;
-use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model implements CanVisit
+class Section extends Model
 {
     use HasUuids;
-    use HasVisits;
 
     protected $guarded = ['id'];
 

@@ -3,17 +3,14 @@
 namespace Bale\Emperan\Models;
 
 use Carbon\Carbon;
-use Coderflex\Laravisit\Concerns\CanVisit;
-use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Post extends Model implements CanVisit
+class Post extends Model
 {
     use HasUuids;
-    use HasVisits;
 
     /**
      * Kolom yang boleh diisi (mass assignment)
