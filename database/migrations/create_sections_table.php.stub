@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('type')->default('core');
             $table->string('usage')->default('general');
             $table->json('content')->nullable();
-            $table->boolean('content')->default(true);
+            $table->boolean('actived')->default(true);
             $table->timestamps();
         });
     }
