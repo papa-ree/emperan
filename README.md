@@ -52,7 +52,7 @@ php artisan vendor:publish --tag="bale-emperan-views"
 ## Usage
 
 ```php
-$baleEmperan = new Paparee\BaleEmperan();
+$baleEmperan = new Bale\Emperan();
 echo $baleEmperan->echoPhrase('Hello, Paparee!');
 ```
 

@@ -134,5 +134,39 @@ class InstallEmperanCommand extends Command
             ],
         );
     }
+
+    public function footerSection()
+    {
+        return '
+        {
+            "meta": {
+                "social": {
+                    "facebook": {
+                        "url": "facebook.com",
+                        "icon": "facebook"
+                    },
+                    "instagram": {
+                        "url": "instagram.com"
+                    }
+                },
+                "contact": {
+                    "email": "cms@bale.id",
+                    "phone": "+62 352 481234",
+                    "address": "Jl. Soekarno Hatta 123"
+                },
+                "link cepat": {
+                    "home": {
+                        "url": "\/home"
+                    },
+                    "news": {
+                        "url": "\/news"
+                    }
+                }
+            },
+            "items": [
+            ]
+        }
+        ';
+    }
 }
 
