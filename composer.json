@@ -34,10 +34,7 @@
         "psr-4": {
             "Bale\\Emperan\\": "src/",
             "Bale\\Emperan\\Database\\Factories\\": "database/factories/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
