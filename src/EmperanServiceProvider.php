@@ -2,6 +2,7 @@
 
 namespace Bale\Emperan;
 
+use File;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Bale\Emperan\Commands\InstallEmperanCommand;
@@ -17,6 +18,7 @@ class EmperanServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerCommands();
+        $this->registerBladeComponents();
     }
 
     protected function registerCommands(): void
@@ -50,6 +52,21 @@ class EmperanServiceProvider extends ServiceProvider
         });
 
         $this->offerPublishing();
+    }
+
+    protected function registerBladeComponents(): void
+    {
+        $componentPath = __DIR__ . '/../resources/views/components';
+
+        if (File::isDirectory($componentPath)) {
+            foreach (File::allFiles($componentPath) as $file) {
+                if ($file->getExtension() === 'blade') {
+                    $componentName = str_replace('.blade.php', '', $file->getFilename());
+                    // Register as <x-your-package-alias-component-name />
+                    Blade::component('emperan::' . $componentName, 'emperan::' . $componentName);
+                }
+            }
+        }
     }
 
     /**
