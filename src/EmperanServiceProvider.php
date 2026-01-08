@@ -19,6 +19,7 @@ class EmperanServiceProvider extends ServiceProvider
     {
         $this->registerCommands();
         $this->registerBladeComponents();
+        $this->offerPublishing();
     }
 
     protected function registerCommands(): void
@@ -70,7 +71,15 @@ class EmperanServiceProvider extends ServiceProvider
     /**
      * Publish file agar bisa diubah oleh user.
      */
+    protected function offerPublishing(): void
+    {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
 
+        $this->publishes($this->getMigrations(), 'emperan:migrations');
+
+    }
 
     /**
      * Mengambil semua file migration dari direktori package.
@@ -104,7 +113,7 @@ class EmperanServiceProvider extends ServiceProvider
     protected function getMigrationFileName(string $filename): string
     {
         $timestamp = date('Y_m_d_His');
-        $migrationName = str_replace('.stub', '.php', $filename);
+        $migrationName = str_replace(['.php', '.stub'], '', $filename) . '.php';
 
         return database_path('migrations/' . $timestamp . '_' . $migrationName);
     }

@@ -2,6 +2,7 @@
 
 namespace Bale\Emperan\Models;
 
+use Bale\Emperan\Traits\HasSeoMeta;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     use HasUuids;
+    use HasSeoMeta;
 
     protected $guarded = ['id'];
 
