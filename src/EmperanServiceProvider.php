@@ -50,8 +50,6 @@ class EmperanServiceProvider extends ServiceProvider
             $this->loadViewsFrom(__DIR__ . '/../resources/views', 'bale-emperan');
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
-
-        $this->offerPublishing();
     }
 
     protected function registerBladeComponents(): void
@@ -73,19 +71,6 @@ class EmperanServiceProvider extends ServiceProvider
      * Publish file agar bisa diubah oleh user.
      */
 
-    protected function offerPublishing(): void
-    {
-        if (!$this->app->runningInConsole()) {
-            return;
-        }
-
-        // Publish config
-        $this->publishes([
-            __DIR__ . '/../config/emperan.php' => config_path('emperan.php'),
-        ], 'emperan:config');
-
-        $this->publishes($this->getMigrations(), 'emperan:migrations');
-    }
 
     /**
      * Mengambil semua file migration dari direktori package.
