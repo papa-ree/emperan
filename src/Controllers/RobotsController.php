@@ -16,7 +16,7 @@ class RobotsController extends Controller
 
         $content = <<<ROBOTS
 # Robots.txt for {$this->getSiteName()}
-# Generated dynamically by Bale Emperan
+# Generated dynamically by Bale
 
 User-agent: *
 Allow: /
