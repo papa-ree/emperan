@@ -26,7 +26,7 @@ class Post extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->diffForHumans(),
+            get: fn(string $value) => Carbon::parse($value)->format('d F Y'),
         );
     }
 
@@ -35,7 +35,7 @@ class Post extends Model
      */
     public function excerpt($limit = 160)
     {
-        $content = $this->content;
+        $content = $this->content ?? 'Belum ada konten';
 
         // Jika null → balikan string kosong
         if (!$content) {
