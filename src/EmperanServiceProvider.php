@@ -2,7 +2,8 @@
 
 namespace Bale\Emperan;
 
-use File;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Bale\Emperan\Commands\InstallEmperanCommand;
@@ -17,8 +18,8 @@ class EmperanServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/emperan.php', 'emperan');
         $this->registerCommands();
-        $this->registerBladeComponents();
         $this->offerPublishing();
     }
 
@@ -48,9 +49,11 @@ class EmperanServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->booted(function () {
-            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'bale-emperan');
+            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'emperan');
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
+
+        $this->registerBladeComponents();
     }
 
     protected function registerBladeComponents(): void
@@ -61,7 +64,7 @@ class EmperanServiceProvider extends ServiceProvider
             foreach (File::allFiles($componentPath) as $file) {
                 if ($file->getExtension() === 'blade') {
                     $componentName = str_replace('.blade.php', '', $file->getFilename());
-                    // Register as <x-your-package-alias-component-name />
+                    // Register as <x-emperan::component-name />
                     Blade::component('emperan::' . $componentName, 'emperan::' . $componentName);
                 }
             }
@@ -76,6 +79,10 @@ class EmperanServiceProvider extends ServiceProvider
         if (!$this->app->runningInConsole()) {
             return;
         }
+
+        $this->publishes([
+            __DIR__ . '/../config/emperan.php' => config_path('emperan.php'),
+        ], 'emperan:config');
 
         $this->publishes($this->getMigrations(), 'emperan:migrations');
 

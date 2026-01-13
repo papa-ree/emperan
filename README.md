@@ -26,14 +26,14 @@ composer require paparee/bale-emperan
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="bale-emperan-migrations"
+php artisan vendor:publish --tag="emperan:migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="bale-emperan-config"
+php artisan vendor:publish --tag="emperan:config"
 ```
 
 This is the contents of the published config file:
@@ -46,7 +46,7 @@ return [
 Optionally, you can publish the views using
 
 ```bash
-php artisan vendor:publish --tag="bale-emperan-views"
+php artisan vendor:publish --tag="emperan:views"
 ```
 
 ## Usage

@@ -27,7 +27,7 @@ class SitemapController extends Controller
             ],
         ];
 
-        $content = view('bale-emperan::sitemap.index', compact('sitemaps', 'baseUrl'))->render();
+        $content = view('emperan::sitemap.index', compact('sitemaps', 'baseUrl'))->render();
 
         return response($content, 200, [
             'Content-Type' => 'application/xml',
@@ -44,7 +44,7 @@ class SitemapController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $content = view('bale-emperan::sitemap.posts', compact('posts'))->render();
+        $content = view('emperan::sitemap.posts', compact('posts'))->render();
 
         return response($content, 200, [
             'Content-Type' => 'application/xml',
@@ -60,7 +60,7 @@ class SitemapController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $content = view('bale-emperan::sitemap.pages', compact('pages'))->render();
+        $content = view('emperan::sitemap.pages', compact('pages'))->render();
 
         return response($content, 200, [
             'Content-Type' => 'application/xml',

@@ -106,7 +106,7 @@
                     <a href="{{ $link }}" target="_blank" rel="nofollow noopener" class="flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden hover:border-primary transition-colors bg-white dark:bg-gray-800 shadow-sm group">
                         @if($image)
                             <div class="md:w-48 h-40 md:h-auto overflow-hidden shrink-0">
-                                <img src="{{ $image }}" alt="{{ $title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ $image }}" alt="{{ $title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                             </div>
                         @endif
                         <div class="p-4 flex flex-col justify-center">
@@ -144,7 +144,7 @@
                         <img src="{{ $url }}" 
                              alt="{{ $caption }}" 
                              class="w-full h-auto {{ $stretched ? '' : 'mx-auto' }}"
-                             loading="lazy">
+                             loading="lazy" decoding="async" />
                     </div>
                     @if($caption)
                         <figcaption class="text-center text-sm text-gray-600 dark:text-gray-400 mt-3 italic">
