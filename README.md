@@ -163,6 +163,37 @@ class Event extends Model
 // 2. (Opsional) Tambahkan ke sitemap dengan extend SitemapController
 ```
 
+### CDN Support
+
+Package ini menyediakan integrasi CDN untuk mempercepat loading asset statis.
+
+#### Konfigurasi
+
+Tambahkan variabel berikut di file `.env` Anda:
+
+```env
+EMPERAN_CDN_ENABLED=true
+EMPERAN_CDN_URL=https://cdn.ponorogo.go.id
+EMPERAN_CDN_PREFIX=bale
+```
+
+#### Helper Functions
+
+Tersedia helper global untuk memudahkan akses asset via CDN:
+
+- `cdn_asset(string $path)`: Generate full URL ke asset di CDN.
+- `cdn_url(string $path)`: Alias dari `cdn_asset()`.
+- `cdn_enabled()`: Mengecek apakah CDN sedang aktif.
+
+#### Logic Path CDN
+
+URL yang dihasilkan mengikuti format:
+`{EMPERAN_CDN_URL}/{EMPERAN_CDN_PREFIX}/{slug_organisasi}/{path}`
+
+**Pengecualian:**
+Jika path diawali dengan `shared/`, maka `{slug_organisasi}` akan dihilangkan dari URL.
+Contoh: `cdn_asset('shared/logo.png')` -> `https://cdn.ponorogo.go.id/bale/shared/logo.png`
+
 ## Testing
 
 ```bash
