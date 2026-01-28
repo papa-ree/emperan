@@ -55,3 +55,28 @@ if (!function_exists('cdn_enabled')) {
         return Cdn::enabled();
     }
 }
+
+if (!function_exists('active_landing_page')) {
+    /**
+     * Get active landing page slug
+     *
+     * @return string
+     */
+    function active_landing_page(): string
+    {
+        return config('landing-page.active', 'dindik');
+    }
+}
+
+if (!function_exists('is_landing_page')) {
+    /**
+     * Check if given landing page is active
+     *
+     * @param string $page
+     * @return bool
+     */
+    function is_landing_page(string $page): bool
+    {
+        return active_landing_page() === $page;
+    }
+}

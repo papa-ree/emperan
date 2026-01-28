@@ -18,7 +18,11 @@ class EmperanServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Load helper functions
+        require_once __DIR__ . '/helpers.php';
+
         $this->mergeConfigFrom(__DIR__ . '/../config/emperan.php', 'emperan');
+        $this->mergeConfigFrom(__DIR__ . '/../config/landing-page.php', 'landing-page');
         $this->registerCommands();
         $this->offerPublishing();
     }
@@ -83,6 +87,10 @@ class EmperanServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/emperan.php' => config_path('emperan.php'),
         ], 'emperan:config');
+
+        $this->publishes([
+            __DIR__ . '/../config/landing-page.php' => config_path('landing-page.php'),
+        ], 'emperan:landing-page');
 
         $this->publishes($this->getMigrations(), 'emperan:migrations');
 

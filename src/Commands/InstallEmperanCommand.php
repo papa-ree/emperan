@@ -4,14 +4,17 @@ namespace Bale\Emperan\Commands;
 
 use Illuminate\Console\Command;
 use Bale\Emperan\Models\Section;
+use Illuminate\Support\Str;
 
 class InstallEmperanCommand extends Command
 {
-    protected $signature = 'emperan:install';
+    protected $signature = 'emperan:install {name?}';
     protected $description = 'Install Bale Emperan package (publish config, migrate, seed, etc)';
 
     public function handle()
     {
+        $name = $this->argument('name');
+
         $this->info('⚡ Installing Bale Emperan package...');
 
         // 1. Publish config
@@ -23,150 +26,112 @@ class InstallEmperanCommand extends Command
         $this->info('📦 Config published');
 
         // 3. Seed data
-        $this->runSeed();
+        $this->runSeed($name);
         $this->info('🌱 Seeder executed');
 
         $this->info('✅ Bale Emperan package installed successfully!');
     }
 
-    public function runSeed()
+    public function runSeed($name)
     {
-        $this->heroSection();
-        $this->postSection();
+        $this->heroSection($name);
+        $this->postSection($name);
+        $this->footerSection($name);
     }
 
-    public function heroSection()
+    public function heroSection($name)
     {
         Section::updateOrCreate(
             [
-                'slug' => 'hero-section',
+                'slug' => "hero-{$name}-section",
             ],
             [
-                'name' => 'Hero Section',
-                'slug' => 'hero-section',
+                'name' => "Hero {$name} Section",
                 'content' => [
-                    'show_organization' => true,
-                    'organization' => 'Bale CMS',
-
-                    'show_title' => true,
-                    'title' => 'Bale Content Management System',
-
-                    'show_subtitle' => true,
-                    'subtitle' => 'Manajemen Konten yang mudah dan Modern',
-
-                    'backgrounds' => [
-                        [
-                            'type' => 'image',
-                            'path' => 'uploads/hero/hero-1.jpg',
-                            'alt' => 'Bale CMS',
-                            'caption' => 'Background 1',
-                            'position' => 'center',
-                        ],
-                        [
-                            'type' => 'image',
-                            'path' => 'uploads/hero/hero-2.jpg',
-                            'alt' => 'Bale CMS 2',
-                            'caption' => null,
-                            'position' => 'center',
-                        ]
+                    'meta' => [
+                        'title' => 'Hero Title',
+                        'subtitle' => 'Hero Subtitle',
+                        'button_1' => 'Button 1',
+                        'button_1_url' => '#',
+                        'button_2' => 'Button 2',
+                        'button_2_url' => '#',
                     ],
-
-                    'buttons' => [
-                        [
-                            'show' => true,
-                            'label' => 'Button 1',
-                            'url' => '/portal',
-                            'target' => '_self',
-                            'class' => 'bg-secondary text-primary hover:bg-secondary/90 font-semibold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center justify-center gap-2'
-                        ],
-                        [
-                            'show' => true,
-                            'label' => 'Button 2',
-                            'url' => '/programs',
-                            'target' => '_self',
-                            'class' => 'bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 backdrop-blur-sm font-semibold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105'
-                        ]
-                    ],
-
-                    'layout_options' => [
-                        'align' => 'left',
-                        'text_width' => 'md'
-                    ],
+                    'items' => [],
                 ],
             ],
         );
 
     }
 
-    public function postSection()
+    public function postSection($name)
     {
         Section::updateOrCreate(
             [
-                'slug' => 'post-section',
+                'slug' => "post-{$name}-section",
             ],
             [
-                'name' => 'Post Section',
-                'slug' => 'post-section',
+                'name' => "Post {$name} Section",
                 'content' => [
-                    'show_title' => true,
-                    'title' => 'News & Announcements',
-
-                    'show_subtitle' => true,
-                    'subtitle' => 'Stay updated with the latest developments in Ponorogo',
-
-                    'layouts' => [
-                        'post_limit' => 3,
-                        'grid' => 'grid-3'
+                    'meta' => [
+                        'title' => 'Post Title',
+                        'subtitle' => 'Post Subtitle',
+                        'button' => 'More',
+                        'button_url' => '#',
                     ],
-
-                    'buttons' => [
-                        [
-                            'show' => true,
-                            'label' => 'See All News',
-                            'url' => '/news',
-                            'target' => '_self',
-                            'class' => 'bg-secondary text-primary hover:bg-secondary/90 font-semibold text-base px-8 py-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center justify-center gap-2'
-                        ]
-                    ],
-
-                    'is_active' => true,
+                    'items' => [],
                 ],
             ],
         );
     }
 
-    public function footerSection()
+    public function footerSection($name)
     {
-        return '
-        {
-            "meta": {
-                "social": {
-                    "facebook": {
-                        "url": "facebook.com",
-                        "icon": "facebook"
-                    },
-                    "instagram": {
-                        "url": "instagram.com"
-                    }
-                },
-                "contact": {
-                    "email": "cms@bale.id",
-                    "phone": "+62 352 481234",
-                    "address": "Jl. Soekarno Hatta 123"
-                },
-                "link cepat": {
-                    "home": {
-                        "url": "\/home"
-                    },
-                    "news": {
-                        "url": "\/news"
-                    }
-                }
-            },
-            "items": [
-            ]
-        }
-        ';
+        Section::updateOrCreate(
+            [
+                'slug' => "footer-{$name}-section",
+            ],
+            [
+                'name' => "Footer {$name} Section",
+                'content' => [
+                    'meta' => [
+                        'socials' => [
+                            [
+                                'name' => 'Facebook',
+                                'url' => 'https://facebook.com',
+                            ],
+                            [
+                                'name' => 'Instagram',
+                                'url' => 'https://instagram.com',
+                            ],
+                            [
+                                'name' => 'Twitter',
+                                'url' => 'https://twitter.com',
+                            ],
+                            [
+                                'name' => 'Youtube',
+                                'url' => 'https://youtube.com',
+                            ],
+                        ],
+                        "contact" => [
+                            "phone" => "08123456789",
+                            "email" => "contact@bale.id",
+                            "address" => "Jl. Pahlawan No. 1, Ponorogo",
+                        ],
+                        "link" => [
+                            [
+                                "name" => "Home",
+                                "url" => "\/",
+                            ],
+                            [
+                                "name" => "News",
+                                "url" => "\/news",
+                            ],
+                        ]
+                    ],
+                    'items' => [],
+                ],
+            ],
+        );
     }
 }
 

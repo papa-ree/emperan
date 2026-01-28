@@ -1,9 +1,9 @@
 # Bale Landing Page Backend
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/paparee/bale-emperan.svg?style=flat-square)](https://packagist.org/packages/paparee/bale-emperan)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/paparee/bale-emperan/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/paparee/bale-emperan/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/paparee/bale-emperan/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/paparee/bale-emperan/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/paparee/bale-emperan.svg?style=flat-square)](https://packagist.org/packages/paparee/bale-emperan)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/bale/emperan.svg?style=flat-square)](https://packagist.org/packages/bale/emperan)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/bale/emperan/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/bale/emperan/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/bale/emperan/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/bale/emperan/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/bale/emperan.svg?style=flat-square)](https://packagist.org/packages/bale/emperan)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
@@ -17,22 +17,37 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
-You can install the package via composer:
+Anda dapat menginstal paket ini melalui composer:
 
 ```bash
-composer require paparee/bale-emperan
+composer require bale/emperan
 ```
 
-You can publish and run the migrations with:
+Setelah paket terinstal, jalankan perintah instalasi untuk mempublikasikan konfigurasi, menjalankan migrasi, dan melakukan seeding data awal:
 
 ```bash
+# Instalasi standar (membuat section default: hero, post, footer)
+php artisan emperan:install
+
+# Instalasi dengan nama section kustom (misal: hero-disnaker-section, dst)
+php artisan emperan:install disnaker
+```
+
+Perintah di atas akan otomatis melakukan:
+
+1. Publish konfigurasi `emperan:config`.
+2. Seeding data `Section` dengan struktur JSON `content` (meta & items).
+
+Jika Anda ingin menjalankan langkah-langkah secara manual:
+
+```bash
+# Publish migrasi
 php artisan vendor:publish --tag="emperan:migrations"
+
+# Jalankan migrasi
 php artisan migrate
-```
 
-You can publish the config file with:
-
-```bash
+# Publish config
 php artisan vendor:publish --tag="emperan:config"
 ```
 
