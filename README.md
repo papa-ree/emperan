@@ -29,8 +29,8 @@ Setelah paket terinstal, jalankan perintah instalasi untuk mempublikasikan konfi
 # Instalasi standar (membuat section default: hero, post, footer)
 php artisan emperan:install
 
-# Instalasi dengan nama section kustom (misal: hero-disnaker-section, dst)
-php artisan emperan:install disnaker
+# Instalasi dengan nama section kustom (misal: hero-nama_organisasi-section, dst)
+php artisan emperan:install nama_organisasi
 ```
 
 Perintah di atas akan otomatis melakukan:
@@ -49,19 +49,7 @@ php artisan migrate
 
 # Publish config
 php artisan vendor:publish --tag="emperan:config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="emperan:views"
+php artisan vendor:publish --tag="emperan:landing-page"
 ```
 
 ## Usage
@@ -188,7 +176,7 @@ Tambahkan variabel berikut di file `.env` Anda:
 
 ```env
 EMPERAN_CDN_ENABLED=true
-EMPERAN_CDN_URL=https://cdn.ponorogo.go.id
+EMPERAN_CDN_URL=https://cdn.bale.co.id
 EMPERAN_CDN_PREFIX=bale
 ```
 
@@ -207,7 +195,7 @@ URL yang dihasilkan mengikuti format:
 
 **Pengecualian:**
 Jika path diawali dengan `shared/`, maka `{slug_organisasi}` akan dihilangkan dari URL.
-Contoh: `cdn_asset('shared/logo.png')` -> `https://cdn.ponorogo.go.id/bale/shared/logo.png`
+Contoh: `cdn_asset('shared/logo.png')` -> `https://cdn.bale.co.id/bale/shared/logo.png`
 
 ## Testing
 
