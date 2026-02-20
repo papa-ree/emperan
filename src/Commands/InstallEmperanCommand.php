@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class InstallEmperanCommand extends Command
 {
-    protected $signature = 'emperan:install {name?}';
+    protected $signature = 'emperan:install {name}';
     protected $description = 'Install Bale Emperan package (publish config, migrate, seed, etc)';
 
     public function handle()
@@ -37,6 +37,7 @@ class InstallEmperanCommand extends Command
         $this->heroSection($name);
         $this->postSection($name);
         $this->footerSection($name);
+        $this->optionValue();
     }
 
     public function heroSection($name)
@@ -51,10 +52,15 @@ class InstallEmperanCommand extends Command
                     'meta' => [
                         'title' => 'Hero Title',
                         'subtitle' => 'Hero Subtitle',
-                        'button_1' => 'Button 1',
-                        'button_1_url' => '#',
-                        'button_2' => 'Button 2',
-                        'button_2_url' => '#',
+                        'organization' => 'Bale Content Management System',
+                        'button_1' => [
+                            'label' => 'Button 1',
+                            'url' => '#',
+                        ],
+                        'button_2' => [
+                            'label' => 'Button 2',
+                            'url' => '#',
+                        ],
                     ],
                     'items' => [],
                 ],
@@ -75,8 +81,10 @@ class InstallEmperanCommand extends Command
                     'meta' => [
                         'title' => 'Post Title',
                         'subtitle' => 'Post Subtitle',
-                        'button' => 'More',
-                        'button_url' => '#',
+                        'button' => [
+                            'label' => 'More',
+                            'url' => '#',
+                        ],
                     ],
                     'items' => [],
                 ],
@@ -131,6 +139,14 @@ class InstallEmperanCommand extends Command
                     'items' => [],
                 ],
             ],
+        );
+    }
+
+    public function optionValue()
+    {
+        Option::updateOrCreate(
+            ['url' => 'http://localhost:8000'],
+            ['organization_slug' => 'bale-content-management-system']
         );
     }
 }
