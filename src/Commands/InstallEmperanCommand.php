@@ -2,19 +2,21 @@
 
 namespace Bale\Emperan\Commands;
 
+use Bale\Emperan\Models\Option;
 use Illuminate\Console\Command;
 use Bale\Emperan\Models\Section;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use function Laravel\Prompts\select;
 
 class InstallEmperanCommand extends Command
 {
-    protected $signature = 'emperan:install {name}';
+    protected $signature = 'emperan:install';
     protected $description = 'Install Bale Emperan package (publish config, migrate, seed, etc)';
 
     public function handle()
     {
-        $name = $this->argument('name');
-
         $this->info('⚡ Installing Bale Emperan package...');
 
         // 1. Publish config
@@ -25,29 +27,43 @@ class InstallEmperanCommand extends Command
         ]);
         $this->info('📦 Config published');
 
+        // 2. Choice of Seeding
+        $seedOption = $this->choice(
+            'What would you like to seed?',
+            ['All', 'Core only', 'Role-Permission only'],
+            0
+        );
+
         // 3. Seed data
-        $this->runSeed($name);
-        $this->info('🌱 Seeder executed');
+        if (in_array($seedOption, ['All', 'Core only'])) {
+            $this->runSeed();
+            $this->info('🌱 Core seeder executed');
+        }
+
+        if (in_array($seedOption, ['All', 'Role-Permission only'])) {
+            $this->runRolePermissionSeed();
+            $this->info('🔑 Role & Permission seeder executed');
+        }
 
         $this->info('✅ Bale Emperan package installed successfully!');
     }
 
-    public function runSeed($name)
+    public function runSeed()
     {
-        $this->heroSection($name);
-        $this->postSection($name);
-        $this->footerSection($name);
+        $this->heroSection();
+        $this->postSection();
+        $this->footerSection();
         $this->optionValue();
     }
 
-    public function heroSection($name)
+    public function heroSection()
     {
         Section::updateOrCreate(
             [
-                'slug' => "hero-{$name}-section",
+                'slug' => "hero-section",
             ],
             [
-                'name' => "Hero {$name} Section",
+                'name' => "Hero Section",
                 'content' => [
                     'meta' => [
                         'title' => 'Hero Title',
@@ -69,14 +85,14 @@ class InstallEmperanCommand extends Command
 
     }
 
-    public function postSection($name)
+    public function postSection()
     {
         Section::updateOrCreate(
             [
-                'slug' => "post-{$name}-section",
+                'slug' => "post-section",
             ],
             [
-                'name' => "Post {$name} Section",
+                'name' => "Post Section",
                 'content' => [
                     'meta' => [
                         'title' => 'Post Title',
@@ -92,14 +108,14 @@ class InstallEmperanCommand extends Command
         );
     }
 
-    public function footerSection($name)
+    public function footerSection()
     {
         Section::updateOrCreate(
             [
-                'slug' => "footer-{$name}-section",
+                'slug' => "footer-section",
             ],
             [
-                'name' => "Footer {$name} Section",
+                'name' => "Footer Section",
                 'content' => [
                     'meta' => [
                         'socials' => [
@@ -145,9 +161,44 @@ class InstallEmperanCommand extends Command
     public function optionValue()
     {
         Option::updateOrCreate(
-            ['url' => 'http://localhost:8000'],
-            ['organization_slug' => 'bale-content-management-system']
+            ['name' => 'url'],
+            ['value' => 'http://localhost:8000']
         );
+
+        Option::updateOrCreate(
+            ['name' => 'organization_slug'],
+            ['value' => 'bale-content-management-system']
+        );
+    }
+
+    public function runRolePermissionSeed()
+    {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        $pages = ['Post', 'Page', 'Navigation', 'Section', 'Role', 'Permission'];
+        $actions = ['create', 'read', 'update', 'delete'];
+        $allPermissions = [];
+        $postPermissions = [];
+
+        foreach ($pages as $page) {
+            foreach ($actions as $action) {
+                $permissionName = strtolower($page) . ".{$action}";
+                $allPermissions[] = $permissionName;
+                Permission::firstOrCreate(['name' => $permissionName]);
+
+                if (strtolower($page) === 'post') {
+                    $postPermissions[] = $permissionName;
+                }
+            }
+        }
+
+        $root = Role::firstOrCreate(['name' => 'root']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $user = Role::firstOrCreate(['name' => 'user']);
+
+        $root->syncPermissions($allPermissions);
+        $admin->syncPermissions($allPermissions);
+        $user->syncPermissions($postPermissions);
     }
 }
 
