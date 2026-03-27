@@ -175,21 +175,36 @@ class InstallEmperanCommand extends Command
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $pages = ['Post', 'Page', 'Navigation', 'Section', 'Role', 'Permission'];
+        $pages = ['Post', 'Page', 'Navigation', 'Section', 'Role', 'Permission', 'User-management', 'Option'];
         $actions = ['create', 'read', 'update', 'delete'];
         $allPermissions = [];
         $postPermissions = [];
 
         foreach ($pages as $page) {
+            $p = strtolower($page);
             foreach ($actions as $action) {
-                $permissionName = strtolower($page) . ".{$action}";
+                $permissionName = "{$p}.{$action}";
                 $allPermissions[] = $permissionName;
-                Permission::firstOrCreate(['name' => $permissionName]);
 
-                if (strtolower($page) === 'post') {
+                if ($p === 'post') {
                     $postPermissions[] = $permissionName;
                 }
             }
+        }
+
+        $this->info('🔄 Force syncing permissions...');
+
+        // Clean up: delete existing permissions for these resources (handles both old space-format and new dot-format)
+        foreach ($pages as $page) {
+            $p = strtolower($page);
+            Permission::where('name', 'like', "{$p}.%")
+                ->orWhere('name', 'like', "% {$p}")
+                ->delete();
+        }
+
+        // Re-create permissions
+        foreach ($allPermissions as $name) {
+            Permission::create(['name' => $name]);
         }
 
         $root = Role::firstOrCreate(['name' => 'root']);

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Bale\Emperan\Commands\InstallEmperanCommand;
+use Bale\Emperan\Commands\PublishEmperanMigrationCommand;
 
 class EmperanServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,8 @@ class EmperanServiceProvider extends ServiceProvider
     protected function registerCommands(): void
     {
         $commands = [
-            'command.emperan:install' => InstallEmperanCommand::class,
+            // 'command.emperan:install' => InstallEmperanCommand::class,
+            'command.emperan:publish-migration' => PublishEmperanMigrationCommand::class,
         ];
 
         foreach ($commands as $key => $class) {

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->json('content')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->string('category_slug')->nullable();
+            $table->string('category_slug')->nullable()->index();
             $table->boolean('published')->default(0);
             $table->timestamp('published_at')->nullable();
             $table->softDeletes();
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('post_sections');
+        Schema::dropIfExists('posts');
     }
 };

@@ -63,5 +63,12 @@ class Post extends Model
         // Hapus tag HTML, batasi panjang
         return Str::limit(strip_tags($text), $limit);
     }
+    /**
+     * Relasi ke Category melalui category_slug
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_slug', 'slug');
+    }
 
 }
