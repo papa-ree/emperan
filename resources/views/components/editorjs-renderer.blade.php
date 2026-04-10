@@ -6,6 +6,20 @@
     $blocks = $editorData['blocks'] ?? [];
 @endphp
 
+<style>
+    .editorjs-content a:not(.group):not(.flex) {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-thickness: 1px;
+        transition: all 300ms ease-in-out;
+    }
+    .editorjs-content a:not(.group):not(.flex):hover {
+        text-decoration: underline wavy;
+        text-decoration-thickness: 1.5px;
+        color: #3b82f6; 
+    }
+</style>
+
 <div class="editorjs-content">
     @foreach($blocks as $block)
         @php
@@ -51,7 +65,7 @@
                     $text = $data['text'] ?? '';
                 @endphp
                 @if(!empty($text))
-                    <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-lg">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-lg text-justify">
                         {!! $text !!}
                     </p>
                 @endif

@@ -33,7 +33,7 @@ class Post extends Model
     /**
      * Generate excerpt from EditorJS content.
      */
-    public function excerpt($limit = 160)
+    public function getExcerpt($limit = 160)
     {
         $content = $this->content ?? 'Belum ada konten';
 
@@ -63,6 +63,7 @@ class Post extends Model
         // Hapus tag HTML, batasi panjang
         return Str::limit(strip_tags($text), $limit);
     }
+
     /**
      * Relasi ke Category melalui category_slug
      */
