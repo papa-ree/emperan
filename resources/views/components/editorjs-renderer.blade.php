@@ -229,37 +229,38 @@
                 @php
                     $content = $data['content'] ?? [];
                     $withHeadings = $data['withHeadings'] ?? false;
+                    $stretched = $data['stretched'] ?? false;
                 @endphp
-                <div class="mb-8 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <div class="mb-8 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 {{ $stretched ? 'w-full' : 'max-w-full' }}">
+                    <table class="min-w-full border-collapse">
                         @if($withHeadings && count($content) > 0)
-                            <thead class="bg-gray-50 dark:bg-gray-800">
+                            <thead class="bg-gray-50 dark:bg-gray-800/50">
                                 <tr>
                                     @foreach($content[0] as $cell)
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                                        <th class="px-6 py-4 text-left text-sm font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 uppercase tracking-wider">
                                             {!! $cell !!}
                                         </th>
                                     @endforeach
                                 </tr>
                             </thead>
-                            <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody class="bg-white dark:bg-gray-900">
                                 @foreach(array_slice($content, 1) as $row)
-                                    <tr>
+                                    <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
                                         @foreach($row as $cell)
-                                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                                                {!! $cell !!}
+                                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 border-b border-gray-100 dark:border-gray-800">
+                                                {!! empty($cell) ? '&nbsp;' : $cell !!}
                                             </td>
                                         @endforeach
                                     </tr>
                                 @endforeach
                             </tbody>
                         @else
-                            <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody class="bg-white dark:bg-gray-900">
                                 @foreach($content as $row)
-                                    <tr>
+                                    <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
                                         @foreach($row as $cell)
-                                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                                                {!! $cell !!}
+                                            <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 border-b border-gray-100 dark:border-gray-800">
+                                                {!! empty($cell) ? '&nbsp;' : $cell !!}
                                             </td>
                                         @endforeach
                                     </tr>

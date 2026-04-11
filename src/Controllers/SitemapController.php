@@ -56,6 +56,7 @@ class SitemapController extends Controller
      */
     public function pages(): Response
     {
+        // Pages table doesn't have 'published' column based on migration
         $pages = Page::select(['id', 'slug', 'title', 'updated_at'])
             ->orderBy('updated_at', 'desc')
             ->get();

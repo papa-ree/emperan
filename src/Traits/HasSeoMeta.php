@@ -114,7 +114,13 @@ trait HasSeoMeta
 
         // Fallback to thumbnail if exists
         if (isset($this->thumbnail) && $this->thumbnail) {
-            return $this->thumbnail;
+            // Check if it's already a full URL
+            if (str_starts_with($this->thumbnail, 'http')) {
+                return $this->thumbnail;
+            }
+
+            // Fallback to CDN for thumbnails
+            return \Bale\Emperan\Support\Cdn::url('thumbnails/' . $this->thumbnail);
         }
 
         return null;
@@ -142,6 +148,26 @@ trait HasSeoMeta
     public function getSeoRobots(): string
     {
         return $this->seoMeta?->robots ?? 'index, follow';
+    }
+
+    /**
+     * Get Open Graph type
+     */
+    public function getOgType(): string
+    {
+        if (str_contains(get_class($this), 'Post')) {
+            return 'article';
+        }
+
+        return 'website';
+    }
+
+    /**
+     * Get Twitter Card type
+     */
+    public function getTwitterCardType(): string
+    {
+        return $this->seoMeta?->twitter_card ?? 'summary_large_image';
     }
 
     /**

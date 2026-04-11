@@ -31,7 +31,7 @@ class Post extends Model
     }
 
     /**
-     * Generate excerpt from EditorJS content.
+     * Generate getExcerpt from EditorJS content.
      */
     public function getExcerpt($limit = 160)
     {

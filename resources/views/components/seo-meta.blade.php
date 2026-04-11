@@ -27,6 +27,8 @@ Fallback values will be used if seo_meta is not set.
         $canonical = $model->getCanonicalUrl() ?: url()->current();
         $robots = $model->getSeoRobots();
         $structuredData = $model->getStructuredData();
+        $ogType = method_exists($model, 'getOgType') ? $model->getOgType() : 'website';
+        $twitterCard = method_exists($model, 'getTwitterCardType') ? $model->getTwitterCardType() : 'summary_large_image';
     } else {
         $title = $defaultTitle;
         $description = $defaultDescription;
@@ -37,6 +39,16 @@ Fallback values will be used if seo_meta is not set.
         $canonical = url()->current();
         $robots = 'index, follow';
         $structuredData = null;
+        $ogType = 'website';
+        $twitterCard = 'summary_large_image';
+    }
+
+    $siteName = config('emperan.site_name', config('app.name'));
+    $locale = config('app.locale', 'id_ID') === 'id' ? 'id_ID' : 'en_US';
+    
+    // Ensure OG Image is absolute
+    if ($ogImage && !str_starts_with($ogImage, 'http')) {
+        $ogImage = url($ogImage);
     }
 @endphp
 
@@ -52,21 +64,23 @@ Fallback values will be used if seo_meta is not set.
 <link rel="canonical" href="{{ $canonical }}">
 
 {{-- Open Graph / Facebook --}}
-<meta property="og:type" content="website">
+<meta property="og:type" content="{{ $ogType }}">
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:title" content="{{ $ogTitle }}">
 <meta property="og:description" content="{{ $ogDescription }}">
+<meta property="og:site_name" content="{{ $siteName }}">
+<meta property="og:locale" content="{{ $locale }}">
 @if($ogImage)
-    <meta property="og:image" content="{{ str_starts_with($ogImage, 'http') ? $ogImage : url($ogImage) }}">
+    <meta property="og:image" content="{{ $ogImage }}">
 @endif
 
 {{-- Twitter Card --}}
-<meta name="twitter:card" content="{{ $model?->seoMeta?->twitter_card ?? 'summary_large_image' }}">
+<meta name="twitter:card" content="{{ $twitterCard }}">
 <meta name="twitter:url" content="{{ url()->current() }}">
 <meta name="twitter:title" content="{{ $ogTitle }}">
 <meta name="twitter:description" content="{{ $ogDescription }}">
 @if($ogImage)
-    <meta name="twitter:image" content="{{ str_starts_with($ogImage, 'http') ? $ogImage : url($ogImage) }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
 @endif
 
 {{-- Structured Data (JSON-LD) --}}
