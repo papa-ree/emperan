@@ -72,6 +72,12 @@ Fallback values will be used if seo_meta is not set.
 <meta property="og:locale" content="{{ $locale }}">
 @if($ogImage)
     <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:secure_url" content="{{ $ogImage }}">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    {{-- WhatsApp fallback --}}
+    <link itemprop="image" href="{{ $ogImage }}">
 @endif
 
 {{-- Twitter Card --}}
