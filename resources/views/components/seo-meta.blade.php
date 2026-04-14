@@ -47,7 +47,7 @@ Fallback values will be used if seo_meta is not set.
     $locale = config('app.locale', 'id_ID') === 'id' ? 'id_ID' : 'en_US';
 
     // Ensure OG Image is absolute
-    if ($ogImage && !str_starts_with($ogImage, 'http')) {
+    if ($ogImage && !str_starts_with($ogImage, 'http') && !str_starts_with($ogImage, '//')) {
         $ogImage = url($ogImage);
     }
 @endphp
@@ -73,9 +73,6 @@ Fallback values will be used if seo_meta is not set.
 @if($ogImage)
     <meta property="og:image" content="{{ $ogImage }}">
     <meta property="og:image:secure_url" content="{{ $ogImage }}">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     {{-- WhatsApp fallback --}}
     <link itemprop="image" href="{{ $ogImage }}">
 @endif

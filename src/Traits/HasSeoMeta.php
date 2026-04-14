@@ -63,8 +63,8 @@ trait HasSeoMeta
         }
 
         // Try to generate from content
-        if (method_exists($this, 'excerpt')) {
-            return $this->excerpt(160);
+        if (method_exists($this, 'getExcerpt')) {
+            return $this->getExcerpt(160);
         }
 
         if (isset($this->content)) {
