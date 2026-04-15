@@ -22,7 +22,7 @@
         "livewire/livewire": "*",
         "mallardduck/blade-lucide-icons": "*",
         "spatie/laravel-permission": "*",
-        "bale/seo": "dev-master"
+        "bale/seo": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
