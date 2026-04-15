@@ -2,7 +2,7 @@
 
 namespace Bale\Emperan\Models;
 
-use Bale\Emperan\Traits\HasSeoMeta;
+use Bale\Seo\Traits\HasSeoMeta;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
