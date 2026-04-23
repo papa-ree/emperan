@@ -8,6 +8,10 @@ use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Bale\Emperan\Commands\InstallEmperanCommand;
 use Bale\Emperan\Commands\PublishEmperanMigrationCommand;
+use Livewire\Component as LivewireComponent;
+use Livewire\Livewire;
+use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
 
 class EmperanServiceProvider extends ServiceProvider
 {
@@ -60,6 +64,7 @@ class EmperanServiceProvider extends ServiceProvider
         });
 
         $this->registerBladeComponents();
+        $this->registerLivewireComponents();
     }
 
     protected function registerBladeComponents(): void
@@ -133,5 +138,49 @@ class EmperanServiceProvider extends ServiceProvider
         $migrationName = str_replace(['.php', '.stub'], '', $filename) . '.php';
 
         return database_path('migrations/' . $timestamp . '_' . $migrationName);
+    }
+
+    protected function registerLivewireComponents(): void
+    {
+        $namespace = "Bale\\Emperan\\Livewire";
+        $basePath = __DIR__ . "/Livewire";
+
+        // Jika folder Livewire tidak ada, hentikan proses
+        if (!is_dir($basePath)) {
+            return;
+        }
+
+        $finder = new Finder();
+        $finder->files()->in($basePath)->name('*.php');
+
+        foreach ($finder as $file) {
+            $relativePathname = $file->getRelativePathname();
+
+            // Normalisasi path (Windows/Linux)
+            $nsPath = str_replace(['/', '\\'], '\\', $relativePathname);
+
+            // Konversi ke FQCN (Fully Qualified Class Name)
+            $class = $namespace . '\\' . Str::beforeLast($nsPath, '.php');
+
+            // Skip jika class tidak ditemukan
+            if (!class_exists($class)) {
+                continue;
+            }
+
+            // Skip jika bukan turunan Livewire\Component
+            if (!is_subclass_of($class, LivewireComponent::class)) {
+                continue;
+            }
+
+            // Buat alias berdasarkan struktur folder (kebab-case)
+            $withoutExt = Str::replaceLast('.php', '', $relativePathname);
+            $segments = preg_split('#[\/\\\\]#', $withoutExt);
+            $kebab = array_map(fn($s) => Str::kebab($s), $segments);
+
+            $alias = 'emperan.' . implode('.', $kebab);
+
+            // Registrasi komponen ke Livewire
+            Livewire::component($alias, $class);
+        }
     }
 }
