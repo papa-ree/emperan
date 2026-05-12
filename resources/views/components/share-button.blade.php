@@ -18,19 +18,25 @@
         copied: false,
         share() {
             const shareTitle = @js($title);
-            const shareText = @js($text);
-            const shareUrl = @js($url);
-            
-            const fullText = shareText ? `${shareTitle}\n\n${shareText}\n\nInfo selengkapnya: ${shareUrl}` : `${shareTitle}\n\n${shareUrl}`;
+            const shareText  = @js($text);
+            const shareUrl   = @js($url);
+
+            // Teks untuk Web Share API: URL sudah ditangani browser via param `url`
+            const apiText = shareText ? `${shareTitle}\n\n${shareText}` : shareTitle;
+
+            // Teks untuk clipboard fallback: sertakan URL secara eksplisit
+            const clipText = shareText
+                ? `${shareTitle}\n\n${shareText}\n\nInfo selengkapnya: ${shareUrl}`
+                : `${shareTitle}\n\nInfo selengkapnya: ${shareUrl}`;
 
             if (navigator.share) {
                 navigator.share({
                     title: shareTitle,
-                    text: fullText,
-                    url: shareUrl
+                    text: apiText,
+                    url: shareUrl,
                 }).catch(console.error);
             } else {
-                navigator.clipboard.writeText(fullText).then(() => {
+                navigator.clipboard.writeText(clipText).then(() => {
                     this.copied = true;
                     setTimeout(() => this.copied = false, 2000);
                 });
